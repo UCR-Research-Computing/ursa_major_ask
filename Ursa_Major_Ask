@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import openai
+import config
+import subprocess
+import argparse
+
+openai.api_key = config.OPENAI_API_KEY
+
+
+def ursa_major_expert(transcript):
+
+    messages = [{"role": "system", "content": 'You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded verion of Googles GCP platfor that uses the Google HPC Toolkit github site and google gcp researcher researouces for help and informatiom and support. Slurm is the default cluster scheduler and it doesnt need walltime delarationas and the default queue is names debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input in as an expert and gives examples where ever possiable.'}]
+    messages.append({"role": "user", "content": transcript})
+
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+
+    system_message = response["choices"][0]["message"]["content"]
+    return system_message
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("transcript", nargs='*', type=str, help="Transcript of the conversation")
+    args = parser.parse_args()
+
+    transcript = '\n'.join(args.transcript)
+
+
+    import textwrap
+
+    print("---------")
+    print(ursa_major_expert(transcript))
+    print("---------")
