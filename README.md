@@ -16,7 +16,7 @@ The primary dependencies for this project are:
 Use the following command to install the OpenAI client:
 
 ```
-pip install requierments.txt
+pip install -r requirements.txt
 ```
 
 Ensure that you have the OpenAI API key. Set this key in your environment variables or in the `config.py` file. 
