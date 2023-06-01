@@ -1,6 +1,6 @@
-# Ursa Major Expert AI
+# Ursa Major Ask
 
-The Ursa Major Expert AI is a powerful tool that leverages OpenAI's GPT-3.5-turbo to simulate a chat with a fictional 'Director of Research Computing' character who is an expert in Google's Ursa Major platform. 
+The Ursa Major Ask is a powerful tool that leverages OpenAI's GPT-3.5-turbo to simulate a chat with a fictional 'Director of Research Computing' character who is an expert in Google's Ursa Major platform. 
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ The primary dependencies for this project are:
 Use the following command to install the OpenAI client:
 
 ```
-pip install openai
+pip install requierments.txt
 ```
 
 Ensure that you have the OpenAI API key. Set this key in your environment variables or in the `config.py` file. 
@@ -33,7 +33,7 @@ You can run the script from the command line with the following command:
 python3 Ursa_Major_Ask "your text here"
 ```
 
-Replace "your text here" with your desired input.
+Replace "your text here" with your desired questions.
 
 The `ursa_major_expert` function initiates a conversation with GPT-3.5-turbo, where it plays the role of a 'Director of Research Computing'. The character is described as an expert in Ursa Major, a Google Cloud Platform offering.
 
