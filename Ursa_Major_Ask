@@ -1,35 +1,60 @@
 #!/usr/bin/env python3
 
+# Importing necessary libraries
+# openai - an API to connect to OpenAI's language model
+# config - a module containing configurations such as API keys
+# subprocess - a module for running system commands
+# argparse - a module for parsing command line arguments
 import openai
 import config
 import subprocess
 import argparse
 
+# Setting the API key for OpenAI's API
 openai.api_key = config.OPENAI_API_KEY
 
-
+# Defining the function ursa_major_expert which takes a transcript as input and simulates a chat with a fictional 'Director of Research Computing' character.
 def ursa_major_expert(transcript):
 
-    messages = [{"role": "system", "content": 'You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded verion of Googles GCP platfor that uses the Google HPC Toolkit github site and google gcp researcher researouces for help and informatiom and support. Slurm is the default cluster scheduler and it doesnt need walltime delarationas and the default queue is names debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input in as an expert and gives examples where ever possiable.'}]
+    # Defining an initial system message which sets the context and character's role.
+    messages = [{"role": "system", "content": 'You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Googles GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesnt need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.'}]
+    
+    # Adding user's transcript to the messages.
     messages.append({"role": "user", "content": transcript})
 
+    # Making a request to OpenAI API to generate a chat completion based on the messages
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
+    # Extracting the system's message from the API response
     system_message = response["choices"][0]["message"]["content"]
+    
+    # Returning the system's message
     return system_message
 
-
+# Ensuring that the following code only runs when this script is run directly (and not when it is imported as a module)
 if __name__ == "__main__":
 
+    # Creating an ArgumentParser object
     parser = argparse.ArgumentParser()
+    
+    # Adding an argument for the transcript
     parser.add_argument("transcript", nargs='*', type=str, help="Transcript of the conversation")
+    
+    # Parsing the command line arguments
     args = parser.parse_args()
 
+    # Joining the transcript arguments with newline characters in between
     transcript = '\n'.join(args.transcript)
 
-
+    # Importing the textwrap module
     import textwrap
 
+    # Printing the opening boundary
     print("---------")
+    
+    # Printing the expert's response to the transcript
     print(ursa_major_expert(transcript))
+    
+    # Printing the closing boundary
     print("---------")
+
