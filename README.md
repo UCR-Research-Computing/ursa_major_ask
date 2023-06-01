@@ -39,6 +39,45 @@ The `ursa_major_expert` function initiates a conversation with GPT-3.5-turbo, wh
 
 The AI returns a chat completion based on the input transcript, which is then saved to a file and executed.
 
+---
+
+## Powerful File Input and Data Analysis
+
+`Ursa_Major_Ask` isn't just designed to accept file input – it's built to harness the full potential of OpenAI's GPT-3 model, enabling sophisticated analysis and interpretation of the data you feed into it. This elevates `Ursa_Major_Ask` from a mere command-line tool to a versatile solution for a wide range of data processing tasks.
+
+Whether you are dealing with scripts, structured text files, or raw data, `Ursa_Major_Ask` can process it, and utilize the language understanding capabilities of GPT-3 to provide meaningful insights.
+
+The power of this approach lies in its versatility. You are not limited to scripts or programming languages; you can feed in any type of text file and let the model analyze it based on the question you ask.
+
+### Examples
+
+1. **Analyzing a CSV data file**: If you have a CSV file, `sales_data.csv`, containing sales data for a period, you could ask:
+
+    ```
+    Ursa_Major_Ask "analyze the sales trend $(cat sales_data.csv)"
+    ```
+    `Ursa_Major_Ask` will provide you with an interpretation of the sales trend based on the data in the file.
+
+2. **Understanding Log Files**: You have a log file, `server.log`, and you want to know about any critical errors. You can ask:
+
+    ```
+    Ursa_Major_Ask "find critical errors $(cat server.log)"
+    ```
+    The command-line tool will provide a summary of the critical errors found in the log file.
+
+3. **Interpreting Complex XML or JSON data**: You can even feed complex XML or JSON files. For instance, with a complex JSON data file `user_data.json`, you might want to understand the user behavior it signifies:
+
+    ```
+    Ursa_Major_Ask "interpret user behavior $(cat user_data.json)"
+    ```
+    `Ursa_Major_Ask` will then provide an interpretation of the user behavior based on the data.
+
+Remember, `Ursa_Major_Ask` is as powerful and versatile as the questions you ask and the data you feed. It leverages the robustness of OpenAI's GPT-3 model to analyze, understand, and provide insights on a wide array of data. 
+
+---
+
+Please note that the file paths in these examples are relative. If your files are in different directories, be sure to include the correct paths. Also, ensure the data or text you're feeding into `Ursa_Major_Ask` does not contain sensitive or personal information, as it will be processed by an external AI model.
+
 ## Note
 
 This script is for educational and research purposes. It is not meant for production use.
