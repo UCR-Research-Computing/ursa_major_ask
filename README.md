@@ -46,9 +46,35 @@ Imagine having a conversation with an AI that not only understands your coding n
 ```bash
 Ursa_Major_Ask -r write a Python script that prints Hello, World
 ```
-
 The command above generates a Python script that prints 'Hello, World!' and immediately executes it, outputting 'Hello, World!' to the console.
 
+```bash
+Ursa_Major_Ask -r write a script that prints fibonacci numbers up to 10000
+```
+```
+Fibonacci Series up to 10000:
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+144
+233
+377
+610
+987
+1597
+2584
+4181
+6765
+
+completed running: run.sh
+```
 ## Unleashing Endless Possibilities
 
 This ability is more than a convenience—it's a game-changer. Whether you're creating a Python script, a Bash shell script, or even a complex data analysis pipeline, Ursa_Major_Ask can generate and execute it for you. You can leverage the full power of the OpenAI model, GPT-3.5-turbo, to analyze data, automate tasks, or even write software—all within a single command.
