@@ -30,6 +30,18 @@ The script accepts a transcript as a command line argument. The transcript is fe
 You can run the script from the command line with the following command:
 
 ```bash
+usage: Ursa_Major_Ask [-h] [-r] [-l] [-w] [transcript ...]
+
+positional arguments:
+  transcript   Transcript of the conversation
+
+options:
+  -h, --help   show this help message and exit
+  -r, --run    Run the generated script
+  -l, --live   Run using a gradio interface
+  -w, --write  Write the generated script
+
+example:
 Ursa_Major_Ask your text here
 ```
 
