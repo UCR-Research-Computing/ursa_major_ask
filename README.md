@@ -25,6 +25,49 @@ Ensure that you have the OpenAI API key. Set this key in your environment variab
 
 The script accepts a transcript as a command line argument. The transcript is fed to the `ursa_major_expert` function which leverages GPT-3.5-turbo model to generate a response. The generated response is treated as a script. The script is then saved to a file with the correct file extension and executed.
 
+## Installation
+
+This section provides instructions on how to install and setup Ursa_Major_Ask on your system. 
+
+An `install.sh` script is included in the repository to automate the installation process. Here are the steps that the script performs:
+
+1. **Create a 'bin' folder in your home directory**: This folder will be used to store the Ursa_Major_Ask script.
+
+2. **Copy the Ursa_Major_Ask script to the 'bin' folder**: The script will be available in your 'bin' folder after this step.
+
+3. **Set the permissions for the script**: The permissions for the Ursa_Major_Ask script are set to 755, making it executable.
+
+4. **Add the 'bin' folder to your PATH**: This allows you to run the Ursa_Major_Ask script from anywhere on your system without having to specify the full path to the script.
+
+5. **Install the required Python packages**: The script uses the pip package manager to install the required Python packages listed in the `requirements.txt` file.
+
+To run the installation script, navigate to the directory containing the script and execute the following command:
+
+```bash
+./install.sh
+```
+
+Please note that you may need to give the `install.sh` script execute permissions. You can do this with the following command:
+
+```bash
+chmod +x install.sh
+```
+
+### Configuring the OpenAI API key
+
+Once the installation process is complete, you'll need to create a `config.py` file in your `bin` directory. This file will contain your OpenAI API key. 
+
+Here is a sample `config.py` file:
+
+```python
+# config.py
+openai_key = "your-openai-api-key"
+```
+
+Replace "your-openai-api-key" with your actual OpenAI API key.
+
+Congratulations! You have now successfully installed Ursa_Major_Ask on your system. Enjoy the power of AI-based scripting at your fingertips.
+
 ## Usage
 
 You can run the script from the command line with the following command:
