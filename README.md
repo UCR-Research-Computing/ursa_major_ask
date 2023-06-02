@@ -25,6 +25,22 @@ Ensure that you have the OpenAI API key. Set this key in your environment variab
 
 The script accepts a transcript as a command line argument. The transcript is fed to the `ursa_major_expert` function which leverages GPT-3.5-turbo model to generate a response. The generated response is treated as a script. The script is then saved to a file with the correct file extension and executed.
 
+![image](https://github.com/UCR-Research-Computing/ursa_major_ask/assets/54458298/90962a1e-2905-40bb-9e5a-d7177f7055a7)
+
+Here is a flow diagram showing the different Python functions found in the script and their relationship to each other:
+
+![Python Functions Flow Diagram](https://showme.redstarplugin.com/d/3E3zKvAo)
+
+The main function interacts with several other functions including `ursa_major_expert`, `detect_script_type`, `save_to_file`, `strip_triple_backticks`, `run_script`, `strip_dot`, `remove_blank_first_line`, `go`, `result_code_cleaning`, and `remove_first_line_if_not_shebang`. 
+
+The `ursa_major_expert` and `detect_script_type` functions both make use of the `openai.ChatCompletion.create` method. The `run_script` function uses the `subprocess.run` method. 
+
+The `go` function interacts with `ursa_major_expert`, `detect_script_type`, `save_to_file`, and `run_script`. 
+
+The `result_code_cleaning` function interacts with `remove_blank_first_line`, `remove_first_line_if_not_shebang`, and `strip_triple_backticks`.
+
+[You can edit this diagram online if you want to make any changes.](https://showme.redstarplugin.com/s/phqGW908)
+
 ## Installation
 
 This section provides instructions on how to install and setup Ursa_Major_Ask on your system. 
