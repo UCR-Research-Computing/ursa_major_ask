@@ -181,6 +181,30 @@ def main(args):
         run_script(file_name)
         print("completed running: " + file_name)
         exit()
+    elif args.write:
+        # Append additional text
+        transcript += "reply to script requests with only the code dont explain anything or y the code but do use the shebang as the first line."
+
+        # Getting the expert's response to the transcript
+        result = ursa_major_expert(transcript)
+
+        stripped_result = result_code_cleaning(result)
+
+        # Detecting the script type
+        file_extension = detect_script_type(stripped_result)
+
+        # Removing leading dot from the file extension
+        stripped_file_extension = strip_dot(file_extension)
+
+        # Saving the script to a file
+        save_to_file(stripped_result, stripped_file_extension)
+
+        # Constructing the filename
+        file_name = f"run.{stripped_file_extension}"
+
+        print("File Written: " + file_name)
+        exit()
+
 
     elif args.live:
         from gradio.components import Textbox, Checkbox
@@ -208,6 +232,7 @@ if __name__ == "__main__":
     # Adding an optional argument to indicate whether to run the generated script
     parser.add_argument("-r", "--run", action='store_true', help="Run the generated script")
     parser.add_argument("-l", "--live", action='store_true', help="Run using a gradio interface")
+    parser.add_argument("-w", "--write", action='store_true', help="Write the generated script")
   
     # Parsing the command line arguments
     args = parser.parse_args()
