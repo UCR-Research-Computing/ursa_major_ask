@@ -35,6 +35,14 @@ python3 Ursa_Major_Ask "your text here"
 
 Replace "your text here" with your desired questions.
 
+### Gradio interface
+
+```bash
+Ursa_Major_Ask -l 
+```
+
+![image](https://github.com/UCR-Research-Computing/ursa_major_ask/assets/54458298/2baebdd4-21a7-41aa-884c-3bfd4e3ad5bb)
+
 The `ursa_major_expert` function initiates a conversation with GPT-3.5-turbo, where it plays the role of a 'Director of Research Computing'. The character is described as an expert in Ursa Major, a Google Cloud Platform offering.
 
 The AI returns a chat completion based on the input transcript, which is then saved to a file and executed.
@@ -79,11 +87,6 @@ Remember, `Ursa_Major_Ask` is as powerful and versatile as the questions you ask
 Please note that the file paths in these examples are relative. If your files are in different directories, be sure to include the correct paths. Also, ensure the data or text you're feeding into `Ursa_Major_Ask` does not contain sensitive or personal information, as it will be processed by an external AI model.
 Gradio interface
 
-```bash
-Ursa_Major_Ask -l 
-```
-
-![image](https://github.com/UCR-Research-Computing/ursa_major_ask/assets/54458298/2baebdd4-21a7-41aa-884c-3bfd4e3ad5bb)
 
 ## Note
 
