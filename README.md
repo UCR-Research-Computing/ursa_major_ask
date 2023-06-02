@@ -86,21 +86,21 @@ The power of this approach lies in its versatility. You are not limited to scrip
 1. **Analyzing a CSV data file**: If you have a CSV file, `sales_data.csv`, containing sales data for a period, you could ask:
 
     ```
-    Ursa_Major_Ask "analyze the sales trend $(cat sales_data.csv)"
+    Ursa_Major_Ask analyze the sales trend "$(cat sales_data.csv)"
     ```
     `Ursa_Major_Ask` will provide you with an interpretation of the sales trend based on the data in the file.
 
 2. **Understanding Log Files**: You have a log file, `server.log`, and you want to know about any critical errors. You can ask:
 
     ```
-    Ursa_Major_Ask "find critical errors $(cat server.log)"
+    Ursa_Major_Ask find critical errors "$(cat server.log)"
     ```
     The command-line tool will provide a summary of the critical errors found in the log file.
 
 3. **Interpreting Complex XML or JSON data**: You can even feed complex XML or JSON files. For instance, with a complex JSON data file `user_data.json`, you might want to understand the user behavior it signifies:
 
     ```
-    Ursa_Major_Ask "interpret user behavior $(cat user_data.json)"
+    Ursa_Major_Ask interpret user behavior "$(cat user_data.json)"
     ```
     `Ursa_Major_Ask` will then provide an interpretation of the user behavior based on the data.
 
