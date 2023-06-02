@@ -29,11 +29,35 @@ The script accepts a transcript as a command line argument. The transcript is fe
 
 You can run the script from the command line with the following command:
 
-```
-python3 Ursa_Major_Ask "your text here"
+```bash
+Ursa_Major_Ask "your text here"
 ```
 
 Replace "your text here" with your desired questions.
+
+# Running Generated Scripts with Ursa_Major_Ask
+
+One of the truly unique and powerful features of Ursa_Major_Ask is the `-r` or `--run` option. This option gives you the incredible ability not only to have the AI generate code based on your requests, but also to execute the created script, providing you with immediate, actionable results.
+
+## Real-Time Code Execution
+
+Imagine having a conversation with an AI that not only understands your coding needs but also executes them in real time. With the `-r` or `--run` option, that's precisely what you get. No longer do you just get the code; you can execute it within the same environment.
+
+```bash
+Ursa_Major_Ask -r "Generate and run a Python script that prints 'Hello, World!'"
+```
+
+The command above generates a Python script that prints 'Hello, World!' and immediately executes it, outputting 'Hello, World!' to the console.
+
+## Unleashing Endless Possibilities
+
+This ability is more than a convenience—it's a game-changer. Whether you're creating a Python script, a Bash shell script, or even a complex data analysis pipeline, Ursa_Major_Ask can generate and execute it for you. You can leverage the full power of the OpenAI model, GPT-3.5-turbo, to analyze data, automate tasks, or even write software—all within a single command.
+
+Moreover, since Ursa_Major_Ask can take any text file as an input, the possibilities are virtually limitless. You could feed it a data file and ask it to perform data analysis, input a requirements document and ask it to write the corresponding code, or provide a bug report and ask it to debug and fix the code for you.
+
+With Ursa_Major_Ask, you are not just talking about code—you are bringing it to life, turning ideas into actions and solutions in a matter of seconds. Code generation and execution have never been so accessible and intuitive. It's not just a coding tool; it's your AI-powered coding assistant that understands your needs and acts on them in real time.
+
+Unlock the full potential of your programming prowess with the power of Ursa_Major_Ask.
 
 ### Gradio interface
 
