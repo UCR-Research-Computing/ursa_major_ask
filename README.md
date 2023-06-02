@@ -30,7 +30,7 @@ The script accepts a transcript as a command line argument. The transcript is fe
 You can run the script from the command line with the following command:
 
 ```bash
-Ursa_Major_Ask "your text here"
+Ursa_Major_Ask your text here
 ```
 
 Replace "your text here" with your desired questions.
@@ -44,7 +44,7 @@ One of the truly unique and powerful features of Ursa_Major_Ask is the `-r` or `
 Imagine having a conversation with an AI that not only understands your coding needs but also executes them in real time. With the `-r` or `--run` option, that's precisely what you get. No longer do you just get the code; you can execute it within the same environment.
 
 ```bash
-Ursa_Major_Ask -r "Generate and run a Python script that prints 'Hello, World!'"
+Ursa_Major_Ask -r write a Python script that prints Hello, World
 ```
 
 The command above generates a Python script that prints 'Hello, World!' and immediately executes it, outputting 'Hello, World!' to the console.
