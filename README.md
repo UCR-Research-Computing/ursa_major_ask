@@ -75,6 +75,40 @@ Fibonacci Series up to 10000:
 
 completed running: run.sh
 ```
+Here are a few examples that involve high performance computing (HPC) with Slurm and genomics research pipelines:
+
+1. **Running a Job on a Slurm Managed HPC Cluster**
+
+   Let's assume you want to submit a job that runs a Python script on your HPC cluster. You could use Ursa_Major_Ask to generate and execute a Slurm script for you:
+
+   ```bash
+   Ursa_Major_Ask -r "Generate and run a Slurm script that runs a Python script called 'my_analysis.py' on a cluster with a partition named 'research'."
+   ```
+
+   Ursa_Major_Ask will generate a Slurm script to submit a job that runs 'my_analysis.py' on the 'research' partition of your cluster, and then it will execute the script to submit the job.
+
+2. **Automating a Genomics Pipeline**
+
+   Imagine you are conducting genomics research and you need to automate a pipeline that involves multiple tools such as FastQC, Trimmomatic, and HISAT2. You could request:
+
+   ```bash
+   Ursa_Major_Ask -r "Generate and run a Bash script that runs FastQC on 'sample.fastq', trims the adapters using Trimmomatic, and then aligns the reads to the 'reference.fa' genome using HISAT2."
+   ```
+
+   Ursa_Major_Ask will generate a Bash script that runs FastQC on 'sample.fastq', trims the adapters using Trimmomatic, and aligns the reads to 'reference.fa' using HISAT2. It will then run this script for you.
+
+3. **Creating and Running a Bioinformatics Workflow with Nextflow**
+
+   If you need to create and run a bioinformatics workflow with Nextflow, you could ask Ursa_Major_Ask something like:
+
+   ```bash
+   Ursa_Major_Ask -r "Generate and run a Nextflow script that takes as input 'reads.fastq', runs FastQC for quality control, uses Trimmomatic for trimming, aligns with BWA, and finally calls variants with FreeBayes."
+   ```
+
+   Ursa_Major_Ask would create a Nextflow script that performs the specified workflow and then execute this script to start the workflow.
+
+These examples show how Ursa_Major_Ask can be used in a scientific research setting, helping to automate tasks related to HPC and genomics research. The possibilities are endless, and Ursa_Major_Ask's utility extends as far as your needs and creativity can take it.
+
 ## Unleashing Endless Possibilities
 
 This ability is more than a convenience—it's a game-changer. Whether you're creating a Python script, a Bash shell script, or even a complex data analysis pipeline, Ursa_Major_Ask can generate and execute it for you. You can leverage the full power of the OpenAI model, GPT-3.5-turbo, to analyze data, automate tasks, or even write software—all within a single command.
@@ -85,7 +119,9 @@ With Ursa_Major_Ask, you are not just talking about code—you are bringing it t
 
 Unlock the full potential of your programming prowess with the power of Ursa_Major_Ask.
 
-### Gradio interface
+### Access Ursa_Major_Ask Anywhere with the Gradio Interface
+
+With the Gradio Interface, Ursa_Major_Ask can be accessed in any web browser, including on your phone, acting like a mobile app. Simply run the command:
 
 ```bash
 Ursa_Major_Ask -l 
@@ -93,11 +129,10 @@ Ursa_Major_Ask -l
 
 ![image](https://github.com/UCR-Research-Computing/ursa_major_ask/assets/54458298/2baebdd4-21a7-41aa-884c-3bfd4e3ad5bb)
 
-The `ursa_major_expert` function initiates a conversation with GPT-3.5-turbo, where it plays the role of a 'Director of Research Computing'. The character is described as an expert in Ursa Major, a Google Cloud Platform offering.
+This allows you to use Ursa_Major_Ask anytime, anywhere. Whether you're commuting, in between meetings, or just on-the-go, you can execute scripts, analyze data, and bring your coding ideas to life right at your fingertips.
 
-The AI returns a chat completion based on the input transcript, which is then saved to a file and executed.
+The Gradio interface also allows for easy sharing of your work, making collaboration simple and efficient. Experience the convenience and power of Ursa_Major_Ask on any device with the Gradio interface.
 
----
 
 ## Powerful File Input and Data Analysis
 
@@ -130,39 +165,7 @@ The power of this approach lies in its versatility. You are not limited to scrip
     ```
     `Ursa_Major_Ask` will then provide an interpretation of the user behavior based on the data.
     
- Certainly! Here are a few examples that involve high performance computing (HPC) with Slurm and genomics research pipelines:
 
-4. **Running a Job on a Slurm Managed HPC Cluster**
-
-   Let's assume you want to submit a job that runs a Python script on your HPC cluster. You could use Ursa_Major_Ask to generate and execute a Slurm script for you:
-
-   ```bash
-   Ursa_Major_Ask -r "Generate and run a Slurm script that runs a Python script called 'my_analysis.py' on a cluster with a partition named 'research'."
-   ```
-
-   Ursa_Major_Ask will generate a Slurm script to submit a job that runs 'my_analysis.py' on the 'research' partition of your cluster, and then it will execute the script to submit the job.
-
-5. **Automating a Genomics Pipeline**
-
-   Imagine you are conducting genomics research and you need to automate a pipeline that involves multiple tools such as FastQC, Trimmomatic, and HISAT2. You could request:
-
-   ```bash
-   Ursa_Major_Ask -r "Generate and run a Bash script that runs FastQC on 'sample.fastq', trims the adapters using Trimmomatic, and then aligns the reads to the 'reference.fa' genome using HISAT2."
-   ```
-
-   Ursa_Major_Ask will generate a Bash script that runs FastQC on 'sample.fastq', trims the adapters using Trimmomatic, and aligns the reads to 'reference.fa' using HISAT2. It will then run this script for you.
-
-6. **Creating and Running a Bioinformatics Workflow with Nextflow**
-
-   If you need to create and run a bioinformatics workflow with Nextflow, you could ask Ursa_Major_Ask something like:
-
-   ```bash
-   Ursa_Major_Ask -r "Generate and run a Nextflow script that takes as input 'reads.fastq', runs FastQC for quality control, uses Trimmomatic for trimming, aligns with BWA, and finally calls variants with FreeBayes."
-   ```
-
-   Ursa_Major_Ask would create a Nextflow script that performs the specified workflow and then execute this script to start the workflow.
-
-These examples show how Ursa_Major_Ask can be used in a scientific research setting, helping to automate tasks related to HPC and genomics research. The possibilities are endless, and Ursa_Major_Ask's utility extends as far as your needs and creativity can take it.
 
 Remember, `Ursa_Major_Ask` is as powerful and versatile as the questions you ask and the data you feed. It leverages the robustness of OpenAI's GPT-3 model to analyze, understand, and provide insights on a wide array of data. 
 
@@ -186,9 +189,7 @@ We welcome contributions to improve this project. Please feel free to create an 
 
 ## Contact
 
-For any queries, please reach out to us at (your email here).
+For any queries, please reach out to us at research-computing@ucr.edu.
 
----
 
-This README is a basic starting point for your project. You may want to further customize it to suit the specific needs of your project and provide more detailed instructions or explanations as needed.
 
