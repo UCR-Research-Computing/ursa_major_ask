@@ -11,12 +11,17 @@ To get started, you will need to clone this repository and install the required 
 The primary dependencies for this project are:
 
 - Python 3.7 or higher
-- OpenAI API Python client
+- OpenAI API Python lib >= 0.27.2
 
 Use the following command to install the OpenAI client:
 
 ```
 pip install -r requirements.txt
+```
+```
+# requirements.txt
+openai>=0.27.2
+gradio
 ```
 
 Ensure that you have the OpenAI API key. Set this key in your environment variables or in the `config.py` file. 
