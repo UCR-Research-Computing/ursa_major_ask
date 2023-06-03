@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 openai==0.27.2
 gradio
-=======
-openai
-gradio
->>>>>>> 73335756ef76326d55050a22277ab45040ff154b
