@@ -159,6 +159,15 @@ def remove_first_line_if_not_shebang(text):
         return '\n'.join(lines[1:])
     return text
 
+import subprocess
+
+def run_ls_latr():
+    """Runs ls -latr on the current directory and returns the contents as a string."""
+    ls_latr_command = ["ls", "-latr"]
+    ls_latr_output = subprocess.check_output(ls_latr_command, text=True)
+    #ls_latr_contents = ls_latr_output.decode("utf-8")
+    return ls_latr_output
+
 def main(args):
     # Joining the transcript arguments with newline characters in between
     transcript = '\n'.join(args.transcript)
@@ -206,6 +215,9 @@ def main(args):
         print("File Written: " + file_name)
         exit()
     elif args.live:
+        #ls_latr_contents = run_ls_latr()
+        #ls_latr_contents = run_ls_latr().replace('\n', '<br>')
+        ls_latr_contents = run_ls_latr().replace('\n', '  \n')
         from gradio.components import Textbox, Checkbox
         iface = gr.Interface(fn=go_live_gradio,
                     inputs=[Textbox(lines=1, label="Question"),
@@ -213,11 +225,24 @@ def main(args):
                         Checkbox(label="Write File")],
                     outputs="text",
                     title="Ursa Major Ask",
-                    description="ChatGPT powered tool",
-                    article='''
-                    News
-                        News
-                            News
+                    description="""Ursa Major Ask is a command-line tool that uses OpenAI's GPT-3.5-turbo to simulate a conversation with an expert in the Google Ursa Major platform. The script accepts a transcript as a command-line argument, and the generated response is treated as a script that can be written to file, run, or even displayed on a gradio interface. The script has many capabilities, including generating and running Python, bash, or Slurm scripts, automating genomics pipelines, analyzing data files, and interpreting JSON or XML files.""",
+                    examples=[
+                            ["What storage is avaiable to me?"],
+                            ["How do I move files to a Ursa Major Cluster?"],
+                            ["What is Ursa Major?"],
+                            ["How do I share the results of my Ursa Major research?"],
+                            ["Generate a script that runs a Slurm submission script that load the module openai and runs a Python script called my_analysis.py on the partition named research and lets run on 1 node and 12 cores"],
+                            ["Generate a script that will print the status of my slurm jobs"],
+                            ["Generate a matlab input file that shows an example of how to run matlab code on a gpu"],
+                            ["write a script to generate a file called data.csv with 100 rows and 10 columns of example data with a hidden trend"],
+                            ["Analyze the following $(cat data.csv) and return a script to use matplotlib to further analyze the data and write to a file"],
+                            ["write a Nextflow script that takes as input 'reads.fastq', runs FastQC for quality control, uses Trimmomatic for trimming, aligns with BWA, and finally calls variants with FreeBayes."],
+                            ["write a Bash script that runs FastQC on 'sample.fastq', trims the adapters using Trimmomatic, and then aligns the reads to the 'reference.fa' genome using HISAT2."],                             
+                            ["write a Bash script that installs nvidia drivers and cuda and suite of the most command data science and ml tools"]
+                            ],
+                    article=f'''
+                    Contents of Current Dir.
+                    {ls_latr_contents}
                             '''
                             )
  #       # Launch the interface
