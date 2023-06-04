@@ -22,6 +22,17 @@ cp "$file_name" ~/bin/
 # Change the permissions of the script file
 chmod "$permission" ~/bin/"$file_name"
 
+# Ask the user for the OpenAI API key
+read -p "Enter your OpenAI API key (or press enter to use the default): " api_key
+
+# If the user didn't enter anything, use the default
+if [ -z "$api_key" ]; then
+    api_key="..."
+fi
+
+# Write the API key to the config.py file
+echo "OPENAI_API_KEY = \"$api_key\"" > ~/"$folder_name"/config.py
+
 # Check if the folder is already in the PATH
 if [[ ":$PATH:" != *":$HOME/$folder_name:"* ]]; then
     # Add the directory to the PATH in .bashrc
