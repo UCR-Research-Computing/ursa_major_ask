@@ -99,6 +99,7 @@ def remove_blank_first_line(result1):
     # Join the lines back together and return the result
     return '\n'.join(lines)
 
+# Running this via Gradio
 def go_live_gradio(transcript, run_sscript, write_script):
     if run_sscript:
         # Append additional text
@@ -150,6 +151,7 @@ def go_live_gradio(transcript, run_sscript, write_script):
     else:
         return call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
 
+# 
 def result_code_cleaning(result):
     return remove_blank_first_line(remove_first_line_if_not_shebang(strip_triple_backticks(result)))
 
@@ -245,7 +247,7 @@ def main(args):
                     {ls_latr_contents}
                             '''
                             )
- #       # Launch the interface
+        # Launch the interface
         iface.launch(share = True)
     else:
         # Getting the Director's response to the transcript
