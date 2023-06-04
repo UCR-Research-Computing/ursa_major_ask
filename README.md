@@ -17,33 +17,18 @@ Use the following command to install the OpenAI client:
 
 ```
 pip install -r requirements.txt
-```
-```
+
 # requirements.txt
 openai>=0.27.2
 gradio
 ```
-
 Ensure that you have the OpenAI API key. Set this key in your environment variables or in the `config.py` file. 
 
-## How it Works
-
-The script accepts a transcript as a command line argument. The transcript is fed to the `ursa_major_expert` function which leverages GPT-3.5-turbo model to generate a response. The generated response is treated as a script. The script is then saved to a file with the correct file extension and executed.
-
-
-Here is a flow diagram showing the different Python functions found in the script and their relationship to each other:
-
-![Python Functions Flow Diagram](https://showme.redstarplugin.com/d/3E3zKvAo)
-
-The main function interacts with several other functions including `ursa_major_expert`, `detect_script_type`, `save_to_file`, `strip_triple_backticks`, `run_script`, `strip_dot`, `remove_blank_first_line`, `go`, `result_code_cleaning`, and `remove_first_line_if_not_shebang`. 
-
-The `ursa_major_expert` and `detect_script_type` functions both make use of the `openai.ChatCompletion.create` method. The `run_script` function uses the `subprocess.run` method. 
-
-The `go` function interacts with `ursa_major_expert`, `detect_script_type`, `save_to_file`, and `run_script`. 
-
-The `result_code_cleaning` function interacts with `remove_blank_first_line`, `remove_first_line_if_not_shebang`, and `strip_triple_backticks`.
-
 ## Installation
+TLDR this is the quick install
+```bash
+curl -L https://raw.githubusercontent.com/UCR-Research-Computing/ursa_major_ask/main/install.sh | bash
+```
 
 This section provides instructions on how to install and setup Ursa_Major_Ask on your system. 
 
@@ -237,8 +222,34 @@ The power of this approach lies in its versatility. You are not limited to scrip
     Ursa_Major_Ask interpret user behavior "$(cat user_data.json)"
     ```
     `Ursa_Major_Ask` will then provide an interpretation of the user behavior based on the data.
-    
 
+## How it Works
+
+The script accepts a transcript as a command line argument. The transcript is fed to the `ursa_major_expert` function which leverages GPT-3.5-turbo model to generate a response. The generated response is treated as a script. The script is then saved to a file with the correct file extension and executed.
+
+
+Here is a flowchart that describes the relationships between the functions in the script:
+
+![Flowchart](https://showme.redstarplugin.com/d/A0AwgxGO)
+
+The `main(args)` function is the entry point of the script, which calls several other functions based on the command-line arguments. These functions include `call_gpt(user_prompt, system_prompt)`, `detect_script_type(script_text)`, `save_to_file(result1, file_extension)`, `run_script(filename)`, and `go_live_gradio(transcript, run_sscript, write_script)`.
+
+The `call_gpt(user_prompt, system_prompt)` function makes a call to the OpenAI API using the `openai.ChatCompletion.create` method. The `detect_script_type(script_text)` function also uses this method.
+
+The `save_to_file(result1, file_extension)` function writes the result to a file using the built-in `open(filename, 'w')` function.
+
+The `run_script(filename)` function uses the `subprocess.run` method to execute the script.
+
+The `go_live_gradio(transcript, run_sscript, write_script)` function calls several other functions including `call_gpt(user_prompt, system_prompt)`, `save_to_file(result1, file_extension)`, `run_script(filename)`, and `result_code_cleaning(result)`.
+
+The `result_code_cleaning(result)` function calls several other functions to clean the result, including `remove_blank_first_line(result1)`, `remove_first_line_if_not_shebang(text)`, and `strip_triple_backticks(result1)`.
+    
+Here is a flowchart that describes the flow and functions of the script:
+
+![Flowchart](https://showme.redstarplugin.com/d/BMdt0vXv)
+
+
+The script starts by importing the necessary libraries and setting the OpenAI API key. It then defines a series of functions that are used throughout the script. If the script is run with the `--live` flag, it sets up a Gradio interface for interactive use. The script then parses command-line arguments and enters the main function. Depending on the flags provided when running the script, it may run a generated script, write a script to a file, or print the Director's response. The script ends after completing these tasks.
 
 Remember, `Ursa_Major_Ask` is as powerful and versatile as the questions you ask and the data you feed. It leverages the robustness of OpenAI's GPT-3 model to analyze, understand, and provide insights on a wide array of data. 
 
