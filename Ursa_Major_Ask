@@ -8,6 +8,7 @@
 # argparse - a module for parsing command line arguments
 import openai
 import config
+import prompts
 import subprocess
 import argparse
 import os
@@ -33,7 +34,7 @@ def call_gpt(user_prompt, system_prompt):
 def detect_script_type(script_text):
     # Initiating a conversation with GPT-3.5-turbo
     messages = [
-            {"role": "system", "content": "You are a skilled AI capable of identifying the type of a given script. Your task is to determine the type of the script based on its content. Only return the two character name of the file extension based on the type script it is, do not include any extra text beside the two character file extension, do not include explanation or any examples whatsoever. just the two character file extension of the type of script it is. example: python scripts will return py and bash scripts will return sh and javascript files return js"},
+            {"role": "system", "content": prompts.script_detector},
         {"role": "user", "content": script_text}
     ]
 
@@ -106,12 +107,12 @@ def go_live_gradio(transcript, run_sscript, write_script):
         transcript += " reply to this request with only the code, Dont explain anything but do use the shebang as the first line of the code. Don't wrap in a code block"
 
         # Getting the expert's response to the transcript
-        result = call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
+        result = call_gpt(transcript, prompts.director)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, "You are a skilled AI capable of identifying the progaramming language of a given script sample. Your task is to determine the programming language of the given script based on its content. Reply only with the two character name of the file extension, based on the type script it is, do not include any extra text beside the two character file extension, do not include explanation or any examples whatsoever. example: python scripts will return py, and bash scripts will return sh, and javascript files return js")
+        file_extension = call_gpt(clean_result, prompts.script_detector)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -131,12 +132,12 @@ def go_live_gradio(transcript, run_sscript, write_script):
         transcript += "reply to script requests with only the code dont explain anything or y the code but do use the shebang as the first line."
 
         # Getting the Director's response to the transcript
-        result = call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
+        result = call_gpt(transcript, prompts.director)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, "You are a skilled AI capable of identifying the progaramming language of a given script sample. Your task is to determine the programming language of the given script based on its content. Reply only with the two character name of the file extension, based on the type script it is, do not include any extra text beside the two character file extension, do not include explanation or any examples whatsoever. example: python scripts will return py, and bash scripts will return sh, and javascript files return js")
+        file_extension = call_gpt(clean_result, prompts.script_detector)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -149,7 +150,7 @@ def go_live_gradio(transcript, run_sscript, write_script):
 
         return "File Written: " + file_name   
     else:
-        return call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
+        return call_gpt(transcript, prompts.director)
 
 # 
 def result_code_cleaning(result):
@@ -176,9 +177,9 @@ def main(args):
     if args.run:
         # Append additional text
         transcript += " reply to this request with only the code dont explain anything or but do use the shebang as the first line."
-        result = call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
+        result = call_gpt(transcript, prompts.director)
         clean_result = result_code_cleaning(result)
-        file_extension = call_gpt(clean_result, "You are a skilled AI capable of identifying the progaramming language of a given script sample. Your task is to determine the programming language of the given script based on its content. Reply only with the two character name of the file extension, based on the type script it is, do not include any extra text beside the two character file extension, do not include explanation or any examples whatsoever. example: python scripts will return py, and bash scripts will return sh, and javascript files return js")
+        file_extension = call_gpt(clean_result, prompts.script_detector)
         stripped_file_extension = strip_dot(file_extension)
 
         # Saving the script to a file
@@ -198,12 +199,12 @@ def main(args):
         transcript += "reply to script requests with only the code dont explain anything or y the code but do use the shebang as the first line."
 
         # Getting the Director's response to the transcript
-        result = call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible.")
+        result = call_gpt(transcript, prompts.director)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, "You are a skilled AI capable of identifying the progaramming language of a given script sample. Your task is to determine the programming language of the given script based on its content. Reply only with the two character name of the file extension, based on the type script it is, do not include any extra text beside the two character file extension, do not include explanation or any examples whatsoever. example: python scripts will return py, and bash scripts will return sh, and javascript files return js")
+        file_extension = call_gpt(clean_result, prompts.script_detector)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -251,7 +252,7 @@ def main(args):
         iface.launch(share = True)
     else:
         # Getting the Director's response to the transcript
-        print(call_gpt(transcript, "You are a Director of Research Computing at the University of California, Riverside. Ursa Major is a branded version of Google\'s GCP platform that uses the Google HPC Toolkit github site and google gcp researcher resources for help, information, and support. Slurm is the default cluster scheduler and it doesn\'t need walltime declarations and the default queue is named debug. Ursa Major uses Google Drive and GCS buckets for research storage and uses rclone to mount these to linux clusters. Respond to all input as an expert and give examples wherever possible."))
+        print(call_gpt(transcript, prompts.director))
 
 # Ensuring that the following code only runs when this script is run directly (and not when it is imported as a module)
 if __name__ == "__main__":
