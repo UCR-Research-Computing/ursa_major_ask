@@ -2,6 +2,8 @@
 
 The Ursa Major Ask is a powerful tool that leverages OpenAI's GPT-3.5-turbo to simulate a chat with a fictional 'Director of Research Computing' character who is an expert in Google's Ursa Major platform. 
 
+It can generate and run code including research software and slurm submission scripts.
+
 ## Getting Started
 
 To get started, you will need to clone this repository and install the required dependencies.
