@@ -171,6 +171,18 @@ def run_ls_latr():
     #ls_latr_contents = ls_latr_output.decode("utf-8")
     return ls_latr_output
 
+import requests 
+def update_files():
+    urls = {
+        "Ursa_Major_Ask": "https://raw.githubusercontent.com/UCR-Research-Computing/ursa_major_ask/main/Ursa_Major_Ask",
+        "prompts.py": "https://raw.githubusercontent.com/UCR-Research-Computing/ursa_major_ask/main/prompts.py"
+    }
+    for filename, url in urls.items():
+        response = requests.get(url)
+        response.raise_for_status()  # Ensure the request was successful
+        with open(os.path.expanduser(f"~/bin/{filename}"), "w") as file:
+            file.write(response.text)
+
 def main(args):
     # Joining the transcript arguments with newline characters in between
     transcript = '\n'.join(args.transcript)
@@ -250,6 +262,10 @@ def main(args):
                             )
         # Launch the interface
         iface.launch(share = True)
+    elif args.update:
+        # Call the function to update the files
+        update_files()
+
     else:
         # Getting the Director's response to the transcript
         print(call_gpt(transcript, prompts.director))
@@ -267,6 +283,7 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--run", action='store_true', help="Run the generated script")
     parser.add_argument("-l", "--live", action='store_true', help="Run using a gradio interface")
     parser.add_argument("-w", "--write", action='store_true', help="Write the generated script")
+    parser.add_argument("-u", "--update", action='store_true', help="Update Ursa_Major_Ask")
   
     # Parsing the command line arguments
     args = parser.parse_args()
