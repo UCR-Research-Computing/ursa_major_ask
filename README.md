@@ -277,5 +277,32 @@ We welcome contributions to improve this project. Please feel free to create an 
 
 For any queries, please reach out to us at research-computing@ucr.edu.
 
+## Docker
+
+To build the Docker image for this tool:
+
+```bash
+docker build -t ursa-major-ask .
+```
+
+To run the Docker image (replace `your_openai_api_key` with your actual key):
+
+```bash
+docker run -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask [arguments]
+```
+
+For example, to ask a question:
+
+```bash
+docker run -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask "What is Ursa Major?"
+```
+
+To run in live/interactive mode with Gradio:
+
+```bash
+docker run -p 7860:7860 -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask -l
+```
+Then open your browser and navigate to `http://localhost:7860`.
+
 
 

@@ -7,7 +7,6 @@
 # subprocess - a module for running system commands
 # argparse - a module for parsing command line arguments
 import openai
-import config
 import prompts
 import subprocess
 import argparse
@@ -15,7 +14,14 @@ import os
 import gradio as gr
 
 # Setting the API key for OpenAI's API
-openai.api_key = config.OPENAI_API_KEY
+try:
+    import config
+    openai.api_key = config.OPENAI_API_KEY
+except (ImportError, AttributeError):
+    openai.api_key = os.environ.get("OPENAI_API_KEY")
+    if openai.api_key is None:
+        print("Error: OPENAI_API_KEY not found in config.py or environment variables.")
+        exit(1)
 
 def call_gpt(user_prompt, system_prompt):
     messages = [
