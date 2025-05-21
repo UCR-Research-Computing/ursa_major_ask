@@ -7,45 +7,38 @@
 # subprocess - a module for running system commands
 # argparse - a module for parsing command line arguments
 import openai
-import config
 import prompts
 import subprocess
 import argparse
 import os
 import gradio as gr
+import google.generativeai as genai
 
-# Setting the API key for OpenAI's API
-openai.api_key = config.OPENAI_API_KEY
+# API key will be set in main() based on llm_provider
 
-def call_gpt(user_prompt, system_prompt):
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
-    ]
-
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-        # Extracting the system's message from the API response
-    return response["choices"][0]["message"]["content"]
+def call_llm(user_prompt, system_prompt, llm_provider, gemini_model_name=None):
+    if llm_provider == "openai":
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", # Or another OpenAI model if you plan to make it configurable
+            messages=messages
+        )
+        return response["choices"][0]["message"]["content"]
+    elif llm_provider == "gemini":
+        model = genai.GenerativeModel(gemini_model_name)
+        full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        response = model.generate_content(full_prompt)
+        return response.text
+    else:
+        raise ValueError(f"Unsupported LLM provider: {llm_provider}")
 
 # Defining function to detect the script type. This function takes in a script text, sends it to OpenAI API, and returns the type of script.
-def detect_script_type(script_text):
-    # Initiating a conversation with GPT-3.5-turbo
-    messages = [
-            {"role": "system", "content": prompts.script_detector},
-        {"role": "user", "content": script_text}
-    ]
-
-    # Sending the conversation to the OpenAI API
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-
-    # Extracting the AI's message from the response
-    ai_message = response["choices"][0]["message"]["content"]
+def detect_script_type(script_text, llm_provider, gemini_model_name=None):
+    # Initiating a conversation
+    ai_message = call_llm(script_text, prompts.script_detector, llm_provider, gemini_model_name)
 
     # Only returning the type of script
     # If the AI's message doesn't follow the expected format, return the whole message
@@ -101,18 +94,18 @@ def remove_blank_first_line(result1):
     return '\n'.join(lines)
 
 # Running this via Gradio
-def go_live_gradio(transcript, run_sscript, write_script):
+def go_live_gradio(transcript, run_sscript, write_script, llm_provider, gemini_model_name):
     if run_sscript:
         # Append additional text
         transcript += " reply to this request with only the code, Dont explain anything but do use the shebang as the first line of the code. Don't wrap in a code block"
 
         # Getting the expert's response to the transcript
-        result = call_gpt(transcript, prompts.director)
+        result = call_llm(transcript, prompts.director, llm_provider, gemini_model_name)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, prompts.script_detector)
+        file_extension = call_llm(clean_result, prompts.script_detector, llm_provider, gemini_model_name)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -132,12 +125,12 @@ def go_live_gradio(transcript, run_sscript, write_script):
         transcript += "reply to script requests with only the code dont explain anything or y the code but do use the shebang as the first line."
 
         # Getting the Director's response to the transcript
-        result = call_gpt(transcript, prompts.director)
+        result = call_llm(transcript, prompts.director, llm_provider, gemini_model_name)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, prompts.script_detector)
+        file_extension = call_llm(clean_result, prompts.script_detector, llm_provider, gemini_model_name)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -150,7 +143,7 @@ def go_live_gradio(transcript, run_sscript, write_script):
 
         return "File Written: " + file_name   
     else:
-        return call_gpt(transcript, prompts.director)
+        return call_llm(transcript, prompts.director, llm_provider, gemini_model_name)
 
 # 
 def result_code_cleaning(result):
@@ -184,14 +177,31 @@ def update_files():
             file.write(response.text)
 
 def main(args):
+    # API Key Handling Logic
+    if args.llm_provider == "openai":
+        try:
+            import config
+            openai.api_key = config.OPENAI_API_KEY
+        except (ImportError, AttributeError):
+            openai.api_key = os.environ.get("OPENAI_API_KEY")
+            if openai.api_key is None:
+                print("Error: OPENAI_API_KEY not found in config.py or environment variables for OpenAI.", file=os.sys.stderr)
+                exit(1)
+    elif args.llm_provider == "gemini":
+        gemini_api_key = os.environ.get("GEMINI_API_KEY")
+        if gemini_api_key is None:
+            print("Error: GEMINI_API_KEY environment variable not found for Gemini.", file=os.sys.stderr)
+            exit(1)
+        genai.configure(api_key=gemini_api_key)
+
     # Joining the transcript arguments with newline characters in between
     transcript = '\n'.join(args.transcript)
     if args.run:
         # Append additional text
         transcript += " reply to this request with only the code dont explain anything or but do use the shebang as the first line."
-        result = call_gpt(transcript, prompts.director)
+        result = call_llm(transcript, prompts.director, args.llm_provider, args.gemini_model)
         clean_result = result_code_cleaning(result)
-        file_extension = call_gpt(clean_result, prompts.script_detector)
+        file_extension = call_llm(clean_result, prompts.script_detector, args.llm_provider, args.gemini_model)
         stripped_file_extension = strip_dot(file_extension)
 
         # Saving the script to a file
@@ -211,12 +221,12 @@ def main(args):
         transcript += "reply to script requests with only the code dont explain anything or y the code but do use the shebang as the first line."
 
         # Getting the Director's response to the transcript
-        result = call_gpt(transcript, prompts.director)
+        result = call_llm(transcript, prompts.director, args.llm_provider, args.gemini_model)
 
         clean_result = result_code_cleaning(result)
 
         # Detecting the script type
-        file_extension = call_gpt(clean_result, prompts.script_detector)
+        file_extension = call_llm(clean_result, prompts.script_detector, args.llm_provider, args.gemini_model)
 
         # Removing leading dot from the file extension
         stripped_file_extension = strip_dot(file_extension)
@@ -234,7 +244,9 @@ def main(args):
         #ls_latr_contents = run_ls_latr().replace('\n', '<br>')
         ls_latr_contents = run_ls_latr().replace('\n', '  \n')
         from gradio.components import Textbox, Checkbox
-        iface = gr.Interface(fn=go_live_gradio,
+        from functools import partial
+        gradio_handler = partial(go_live_gradio, llm_provider=args.llm_provider, gemini_model_name=args.gemini_model)
+        iface = gr.Interface(fn=gradio_handler,
                     inputs=[Textbox(lines=1, label="Question"),
                         Checkbox(label="Run Script"),
                         Checkbox(label="Write File")],
@@ -268,7 +280,7 @@ def main(args):
 
     else:
         # Getting the Director's response to the transcript
-        print(call_gpt(transcript, prompts.director))
+        print(call_llm(transcript, prompts.director, args.llm_provider, args.gemini_model))
 
 # Ensuring that the following code only runs when this script is run directly (and not when it is imported as a module)
 if __name__ == "__main__":
@@ -284,6 +296,8 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--live", action='store_true', help="Run using a gradio interface")
     parser.add_argument("-w", "--write", action='store_true', help="Write the generated script")
     parser.add_argument("-u", "--update", action='store_true', help="Update Ursa_Major_Ask")
+    parser.add_argument("--llm_provider", type=str, default="openai", choices=["openai", "gemini"], help="Specify the LLM provider: 'openai' or 'gemini'")
+    parser.add_argument("--gemini_model", type=str, default="gemini-1.5-flash", help="Specify the Gemini model name (e.g., 'gemini-1.5-flash')")
   
     # Parsing the command line arguments
     args = parser.parse_args()
