@@ -88,6 +88,11 @@ options:
   -r, --run    Run the generated script
   -l, --live   Run using a gradio interface
   -w, --write  Write the generated script
+  --llm_provider {openai,gemini}
+               Specify the LLM provider. Defaults to openai.
+  --gemini_model <model_name>
+               Specify the Gemini model name (e.g., gemini-1.5-flash).
+               Defaults to gemini-1.5-flash.
 
 example:
 Ursa_Major_Ask your text here
@@ -277,6 +282,13 @@ We welcome contributions to improve this project. Please feel free to create an 
 
 For any queries, please reach out to us at research-computing@ucr.edu.
 
+## API Keys
+
+This tool requires API keys for the selected LLM provider.
+
+*   **OpenAI:** Set the `OPENAI_API_KEY` environment variable or ensure it's in a `config.py` file (though environment variables are recommended for Docker).
+*   **Google Gemini:** Set the `GEMINI_API_KEY` environment variable. You can obtain a key from Google AI Studio.
+
 ## Docker
 
 To build the Docker image for this tool:
@@ -285,22 +297,32 @@ To build the Docker image for this tool:
 docker build -t ursa-major-ask .
 ```
 
-To run the Docker image (replace `your_openai_api_key` with your actual key):
+To run the Docker image:
 
+**Using OpenAI (default):** (replace `your_openai_api_key` with your actual key)
 ```bash
 docker run -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask [arguments]
 ```
-
-For example, to ask a question:
-
+Example:
 ```bash
 docker run -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask "What is Ursa Major?"
 ```
 
-To run in live/interactive mode with Gradio:
-
+**Using Google Gemini:** (replace `your_gemini_api_key` with your actual key)
 ```bash
+docker run -e GEMINI_API_KEY=your_gemini_api_key ursa-major-ask --llm_provider gemini [arguments]
+```
+Example with a specific Gemini model:
+```bash
+docker run -e GEMINI_API_KEY=your_gemini_api_key ursa-major-ask --llm_provider gemini --gemini_model gemini-pro "Tell me about Gemini."
+```
+
+To run in live/interactive mode with Gradio (defaults to OpenAI unless specified):
+```bash
+# OpenAI
 docker run -p 7860:7860 -e OPENAI_API_KEY=your_openai_api_key ursa-major-ask -l
+# Gemini
+docker run -p 7860:7860 -e GEMINI_API_KEY=your_gemini_api_key ursa-major-ask -l --llm_provider gemini
 ```
 Then open your browser and navigate to `http://localhost:7860`.
 
